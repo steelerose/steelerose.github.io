@@ -1,0 +1,12 @@
+.center {
+	text-align: center;
+}
+
+#signature {
+    font-size: 12px;
+    color: gray;
+}
+
+#signature a {
+    color: gray;
+}
