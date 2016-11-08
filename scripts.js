@@ -45,8 +45,8 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWh
 		if (replaceWhitespace)
 		{
 			ditDotBreak += ".";
-			letterBreak += "...";
-			wordBreak += ".......";
+			letterBreak += "---";
+			wordBreak += "_______";
 		} else {
 			ditDotBreak += " ";
 			letterBreak += "   ";
