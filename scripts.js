@@ -25,15 +25,16 @@ function TranslateInput() {
 
 	// If inputForMorseCode has been provided, format binary as Morse Code
 	if (inputForMorseCode != "") {
-		binaryOutput = FormatAsMorseCode(binaryOutput.split(""), inputForMorseCode, parseInt(bitsPerDot), $("#chkReplaceWhitespace").is(":checked"));
+		binaryOutput = FormatAsMorseCode(binaryOutput.split(""), inputForMorseCode, parseInt(bitsPerDot));
 	}
 
 	$("#txtEncoded").val(binaryOutput);
 }
 
-function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWhitespace) {
+function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot) {
 	var inputCharIndex = 0
 	var morseCodeOutput = ""
+	var errorMessages = ""
 	var ditDotBreak = "";
 	var letterBreak = "";
 	var wordBreak = "";
@@ -42,16 +43,9 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWh
 
 	// Determine spacing based on bitsPerDot
 	for (var b = 0; b < bitsPerDot; b++) {
-		if (replaceWhitespace)
-		{
-			ditDotBreak += ".";
-			letterBreak += "---";
-			wordBreak += "_______";
-		} else {
-			ditDotBreak += " ";
-			letterBreak += "   ";
-			wordBreak += "       ";
-		}
+		ditDotBreak += ".";
+		letterBreak += "---";
+		wordBreak += "_______";
 	}
 
 	// Modify binary output to show message in Morse code
@@ -72,7 +66,7 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWh
 						if (binaryArray.length > 0) {
 							morseCodeOutput += binaryArray.shift();
 						} else {
-							morseCodeOutput += "\n\nWARNING: Morse input is too long for Binary input by " + (inputForMorseCode.length - inputCharIndex) + " characters."
+							errorMessages += "\n\nWARNING: Morse input is too long for Binary input by " + (inputForMorseCode.length - inputCharIndex) + " characters."
 							hasError = true;
 						}
 					}
@@ -98,7 +92,7 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWh
 						if (binaryArray.length > 0) {
 							morseCodeOutput += binaryArray.shift();
 						} else {
-							morseCodeOutput += "\n\nWARNING: Morse input is too long for Binary input by " + (inputForMorseCode.length - inputCharIndex) + " characters."
+							errorMessages += "\n\nWARNING: Morse input is too long for Binary input by " + (inputForMorseCode.length - inputCharIndex) + " characters."
 							hasError = true;
 						}
 					}
@@ -131,7 +125,7 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWh
 						if (binaryArray.length > 0) {
 							morseCodeOutput += binaryArray.shift();
 						} else {
-							morseCodeOutput += "\n\nWARNING: Morse input is too long for Binary input by " + (inputForMorseCode.length - inputCharIndex) + " characters."
+							errorMessages += "\n\nWARNING: Morse input is too long for Binary input by " + (inputForMorseCode.length - inputCharIndex) + " characters."
 							hasError = true;
 						}
 					}
@@ -148,6 +142,16 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot, replaceWh
 
 			inputCharIndex += 1;
 		}
+	}
+
+	if ($("#ddlLineBreaks").val() = "columns") {
+		morseCodeOutput = morseCodeOutput.replace(/\-\-\-/g, "\n").replace(/\_\_\_\_\_\_\_/g, "\n\n");
+	}
+
+	morseCodeOutput += errorMessages;
+
+	if ($("#chkReplaceWhitespace").is(":checked")) {
+		morseCodeOutput = morseCodeOutput.replace(/\./g, " ").replace(/\-/g, " ").replace(/\_/g, " ");
 	}
 
 	if (!hasError && binaryArray.length > 0) {
