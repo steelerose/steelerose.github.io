@@ -145,6 +145,9 @@ function FormatAsMorseCode(binaryArray, inputForMorseCode, bitsPerDot) {
 	}
 
 	if ($("#ddlLineBreaks").val() == "columns") {
+		console.log(morseCodeOutput.replace(/\-\-\-/g, "\n"));
+		console.log(morseCodeOutput.replace(/\_\_\_\_\_\_\_/g, "\n"));
+		console.log(morseCodeOutput.replace(/\-\-\-/g, "\n").replace(/\_\_\_\_\_\_\_/g, "\n\n"));
 		morseCodeOutput = morseCodeOutput.replace(/\-\-\-/g, "\n").replace(/\_\_\_\_\_\_\_/g, "\n\n");
 	}
 
